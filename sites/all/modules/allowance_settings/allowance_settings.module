@@ -1,0 +1,96 @@
+<?php
+/**
+ * @filefvg 
+ * This is the main module file.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function allowance_settings_help($path, $arg) 
+{
+
+  if ($path == 'admin/help#allowance_settings') 
+  {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The allowance_settings module allows the user to set allowance settings HRMS site.') . '</p>';
+    return $output;
+  }
+}
+
+function allowance_settings_menu() {
+  $items['allowanceform'] = array(
+    'title' => 'Allowance Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('allowance_settings_form'),
+    'access callback' => TRUE,
+    );
+  return $items;
+}
+
+function allowance_settings_form($form,&$form_submit) {
+
+  $form['allowancename'] = array(
+    '#title' => t('Allowance Name'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+ $form['allowancetype'] = array(
+  '#title' => t('Select Allowance Type:'),
+  '#type' => 'select',
+  
+  '#options' => array(t('Percentage'), t('Fixed')),
+  '#required' => TRUE,
+  );
+  $form['allowancevalue'] = array(
+    '#title' => t('Allowance value'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+ 
+  $form['submit'] = array(
+    '#value' => 'SUBMIT',
+    '#type' => 'submit',
+    );
+  return $form;
+}
+
+function allowance_settings_form_form_submit($form, &$form_state) {
+
+    //$company = $form_state['values']['company'][$node->nid];
+    $allowancename = $form_state['values']['allowancename'];
+
+    $allowancetype = $form_state['values']['allowancetype'];
+    $allowancevalue = $form_state['values']['allowancevalue'];
+    
+   
+    
+    
+    $node = new stdClass();
+    $node->type = 'allowance_settings';
+    //node_object_prepare($node);
+    
+    $node->uid = '4';
+    $node->title    = $allowancename;
+    $node->language = LANGUAGE_NONE;
+
+    //$node->body[$node->language][0]['value']   = 
+    $node->field_allowance_name[$node->language][0]['value'] = $allowancename;
+    $node->field_allowance_type[$node->language][0]['value'] = $allowancetype;
+    $node->field_allowance_value[$node->language][0]['value']  = $allowancevalue;
+   
+  
+  
+    node_save($node);
+   
+  
+      if($node){
+       drupal_set_message("Allowance settings saved successfully");
+       //drupal_set_message( $company);
+      
+
+
+      }
+     
+     
+}

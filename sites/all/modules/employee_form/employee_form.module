@@ -1,0 +1,514 @@
+<?php
+/**
+ * @filefvg 
+ * This is the main module file.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function employee_form_help($path, $arg) 
+{
+
+  if ($path == 'admin/help#employee_form') 
+  {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The employee_form module allows the user to add new employee details to the Drupal site.') . '</p>';
+    return $output;
+  }
+}
+
+function employee_form_menu() {
+  $items['employeeform'] = array(
+    'title' => 'EMPLOYEE DETAILS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('employee_form_form'),
+    'access callback' => TRUE,
+    );
+  return $items;
+}
+
+function employee_form_form($form,&$form_submit) {
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', array('company')) 
+    ->fieldOrderBy('field_company_name', 'value', 'ASC'); 
+    $result = $query->execute();
+    
+    $nodes = node_load_multiple(array_keys($result['node']));
+   
+    foreach($nodes as $node): 
+      $companydata[$node->nid]= $node->field_company_name[$node->language][0]['value'];
+    //print_r($companydata);
+    endforeach;
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', array('branch')) 
+    ->fieldOrderBy('field_branch_name', 'value', 'ASC'); 
+    $result = $query->execute();
+    
+    $nodes = node_load_multiple(array_keys($result['node']));
+   
+    foreach($nodes as $node): 
+      $branchdata[$node->nid]= $node->field_branch_name[$node->language][0]['value'];
+    //print_r($branchdata);
+    endforeach;
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', array('department')) 
+    ->fieldOrderBy('field_department_name', 'value', 'ASC'); 
+    $result = $query->execute();
+    
+    $nodes = node_load_multiple(array_keys($result['node']));
+   
+    foreach($nodes as $node): 
+      $departmentdata[$node->nid]= $node->field_department_name[$node->language][0]['value'];
+    //print_r($branchdata);
+    endforeach;
+
+     $form['company'] = array(
+    '#title' => t('Company:'),
+    '#type' => 'select',
+    '#description' => 'Select company.',
+    '#options' => $companydata,
+    //'#default_value' => isset($form_state['values']['dropdown_second']) ? $form_state['values']['dropdown_second'] : '',
+    '#required' => TRUE,
+    );
+   
+    $form['branch'] = array(
+    '#title' => t('Branch:'),
+    '#type' => 'select',
+    '#description' => 'Select branch.',
+    '#options' => $branchdata,
+    '#required' => TRUE,
+    );
+     
+    $form['department'] = array(
+    '#title' => t('Department:'),
+    '#type' => 'select',
+    '#description' => 'Select branch.',
+    '#options' => $departmentdata,
+    '#required' => TRUE,
+    );
+     
+
+
+
+
+  $form['employeeid'] = array(
+    '#title' => t('Employee ID:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['employeename'] = array(
+    '#title' => t('Employee Name:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['dateofbirth'] = array(
+  '#title' => t('Date Of Birth:'),
+  '#type' => 'date',
+  '#description' => t('Select date of birth'),
+  '#default_value' => array(
+    'month' => format_date(time(), 'custom', 'n'), 
+    'day' => format_date(time(), 'custom', 'j'), 
+    'year' => format_date(time(), 'custom', 'Y'),
+  ),
+   '#required' => TRUE,
+  );
+  $form['gender'] = array(
+  '#title' => t('Gender:'),
+  '#type' => 'select',
+  '#description' => 'Select gender.',
+  '#options' => array(t('-Select-'),t('Male'), t('Female')),
+  );
+
+  
+   $form['dateofjoinning'] = array(
+  '#title' => t('Date Of joinning:'),
+  '#type' => 'date',
+  '#description' => t('Select date of joinning'),
+  '#default_value' => array(
+    'month' => format_date(time(), 'custom', 'n'), 
+    'day' => format_date(time(), 'custom', 'j'), 
+    'year' => format_date(time(), 'custom', 'Y'),
+  ),
+   '#required' => TRUE,
+  );
+  $form['designation'] = array(
+    '#title' => t('Designation:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['maritalstatus'] = array(
+  '#title' => t('Marital Status:'),
+  '#type' => 'select',
+  '#description' => 'Select marital status.',
+  '#options' => array(t('-Select-'),t('Married'), t('Unmarried')),
+  );
+
+  $form['nameofspouse'] = array(
+    '#title' => t('Name of Spouse:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['emailoffice'] = array(
+    '#title' => t('Email(office):'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['emailpersonnel'] = array(
+    '#title' => t('Email(personnel):'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+   $form['currentaddress'] = array(
+    '#title' => t('Current Address:'),
+    '#type' => 'textarea',
+    '#required' => TRUE,
+  );
+  $form['permanentaddress'] = array(
+    '#title' => t('Permanent Address:'),
+    '#type' => 'textarea',
+    '#required' => TRUE,
+  );
+  $form['contactnumber1'] = array(
+    '#title' => t('Contact No1:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['contactnumber2'] = array(
+    '#title' => t('Contact No2:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['contactnumber3'] = array(
+    '#title' => t('Contact No3:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['contactnumber4'] = array(
+    '#title' => t('Contact No4:'),
+    '#type' => 'textfield',
+  );
+  $form['emergencyphno'] = array(
+    '#title' => t('Emergency Contact No:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['bloodgroup'] = array(
+    '#title' => t('Blood Group:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['aadharcardno'] = array(
+    '#title' => t('Aadhar Card No:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['employeepannumber'] = array(
+    '#title' => t('Employee PAN Number:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['pfaccountno'] = array(
+    '#title' => t('PF Account No:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['previousemployer'] = array(
+    '#title' => t('Previous Employer:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['qualification'] = array(
+    '#title' => t('Qualification:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['backgroundverificationstatus'] = array(
+  '#title' => t('Background Verification Status:'),
+  '#type' => 'select',
+  
+  '#options' => array(t('Completed'), t('Pending')),
+  '#required' => TRUE,
+  );
+  $form['experiencedetails'] = array(
+    '#title' => t('Experience Details:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['bond'] = array(
+    '#title' => t('Bond:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['confirmationletter'] = array(
+  '#title' => t('Confirmation Letter Issued Or Not:'),
+  '#type' => 'select',
+  
+  '#options' => array(t('Issued'), t('Not Issued')),
+  '#required' => TRUE,
+  );
+  $form['lastworkingday'] = array(
+    '#title' => t('Last Working Day:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['employmentletter'] = array(
+  '#title' => t('Employment Letter Issued Or Not:'),
+  '#type' => 'select',
+  
+  '#options' => array(t('Issued'), t('Not Issued')),
+  '#required' => TRUE,
+  );
+  $form['lastcompanysalary'] = array(
+    '#title' => t('Last Company Salary:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['ctcperannum'] = array(
+    '#title' => t('CTC Per Annum:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['netsalary'] = array(
+    '#title' => t('Net Salary:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['reportingmanagerone'] = array(
+    '#title' => t('Reporting Manager One:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['reportingmanagertwo'] = array(
+    '#title' => t('Reporting Manager Two:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['salarypaymentmode'] = array(
+  '#title' => t('Salary Payment Mode:'),
+  '#type' => 'select',
+  
+  '#options' => array(t('Bank Transfer'), t('Cheque'), t('Cash')),
+  '#required' => TRUE,
+  );
+  $form['salarybankaccount'] = array(
+  '#title' => t('Employee Salary Bank Account:'),
+  '#type' => 'select',
+  
+  '#options' => array(t('HDFC'), t('SBI'), t('PNB'), t('Bank Of Baroda')),
+  '#required' => TRUE,
+  );
+  $form['bankaccountnumber'] = array(
+    '#title' => t('Bank Account Number:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['ifsccode'] = array(
+    '#title' => t('IFSC Code:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['currentposition'] = array(
+    '#title' => t('Current Position:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['numberofworkingdays'] = array(
+    '#title' => t('Number Of Working Days:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+   $form['internaljobpostingstatus'] = array(
+    '#title' => t('Internal Job Posting Status:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['comments'] = array(
+    '#title' => t('Comments:'),
+    '#type' => 'textfield',
+   
+  );
+   $form['employeephoto'] = array(
+    '#type' => 'managed_file',
+    '#title' => t('Upload Employee Photo:'),
+
+    '#default_value' =>!empty($values['employeephoto']) ? $values['employeephoto'] : '',
+    /*'#description' => 'Try to upload a thumbnail image',*/
+    '#upload_validators' => array(
+      'file_validate_extensions' => array('png jpg jpeg'),
+    ),
+    '#upload_location' => 'private://employeephoto',
+  );
+  $form['submit'] = array(
+    '#value' => 'SUBMIT',
+    '#type' => 'submit',
+  );
+  return $form;
+}
+
+function employee_form_form_validate($form, &$form_state) {
+ 
+}
+
+
+function employee_form_form_submit($form, &$form_state) {
+
+    $company = $form_state['values']['company'];
+    $branch = $form_state['values']['branch'];
+    $department = $form_state['values']['department'];
+    $employeeid = $form_state['values']['employeeid'];
+    $employeename = $form_state['values']['employeename'];
+    $dateofbirth = $form_state['values']['dateofbirth'];
+    $gender = $form_state['values']['gender'];
+    //$companyname = $form_state['values']['companyname'];
+    //$branchname = $form_state['values']['branchname'];
+    //$departmentname = $form_state['values']['departmentname'];
+    $dateofjoinning = $form_state['values']['dateofjoinning'];
+    $designation = $form_state['values']['designation'];
+    $maritalstatus = $form_state['values']['maritalstatus'];
+    $nameofspouse = $form_state['values']['nameofspouse'];
+    
+    $emailoffice = $form_state['values']['emailoffice'];
+    $emailpersonnel = $form_state['values']['emailpersonnel'];
+    $currentaddress = $form_state['values']['currentaddress'];
+    $permanentaddress = $form_state['values']['permanentaddress'];
+    $contactnumber1 = $form_state['values']['contactnumber1'];
+    $contactnumber2 = $form_state['values']['contactnumber2'];
+    $contactnumber3 = $form_state['values']['contactnumber3'];
+
+    $contactnumber4 = $form_state['values']['contactnumber4'];
+    $emergencyphno = $form_state['values']['emergencyphno'];
+    $bloodgroup = $form_state['values']['bloodgroup'];
+    $aadharcardno = $form_state['values']['aadharcardno'];
+    $employeepannumber = $form_state['values']['employeepannumber'];
+    $pfaccountno = $form_state['values']['pfaccountno'];
+    $previousemployer = $form_state['values']['previousemployer'];
+    //$companylogo = bin2hex("$companylogo");
+    $qualification = $form_state['values']['qualification'];
+    $backgroundverificationstatus = $form_state['values']['backgroundverificationstatus'];
+ 
+
+   
+    $experiencedetails = $form_state['values']['experiencedetails'];
+    $bond = $form_state['values']['bond'];
+    $confirmationletter = $form_state['values']['confirmationletter'];
+    $lastworkingday = $form_state['values']['lastworkingday'];
+    $employmentletter = $form_state['values']['employmentletter'];
+    $lastcompanysalary = $form_state['values']['lastcompanysalary'];
+    $ctcperannum = $form_state['values']['ctcperannum'];
+    $netsalary = $form_state['values']['netsalary'];
+    $reportingmanagerone = $form_state['values']['reportingmanagerone'];
+    $reportingmanagertwo = $form_state['values']['reportingmanagertwo'];
+    $salarypaymentmode = $form_state['values']['salarypaymentmode'];
+    $salarybankaccount = $form_state['values']['salarybankaccount'];
+    $bankaccountnumber = $form_state['values']['bankaccountnumber'];
+    $ifsccode = $form_state['values']['ifsccode'];
+    $currentposition = $form_state['values']['currentposition'];
+    $numberofworkingdays = $form_state['values']['numberofworkingdays'];
+    $internaljobpostingstatus = $form_state['values']['internaljobpostingstatus'];
+    
+    $comments = $form_state['values']['comments'];
+    //$uploademployeephoto = $form_state['values']['uploademployeephoto'];
+
+    $f = file_load($form_state['values']['employeephoto']);
+
+    $filename = ($f->filename);
+    $filename = explode('.', $filename);
+    $employeeimage = bin2hex($filename[0]);
+    //print_r($companyimage);die;
+    $employeeext = $filename[1];
+
+   
+    $node = new stdClass();
+    $node->type = 'employee';
+    //node_object_prepare($node);
+   
+
+    
+    $node->uid = '4';
+    $node->title    ='Name:'.$employeename.''.'ID:'.$employeeid;
+    $node->language = LANGUAGE_NONE;
+
+  $node->field_companymylist[$node->language][0]['value'] = $company;
+  $node->field_branchlist[$node->language][0]['value'] = $branch;
+  $node->field_department[$node->language][0]['value'] = $department;
+  $node->field_employee_id[$node->language][0]['value'] = $employeeid;
+  $node->field_employee_name[$node->language][0]['value']  = $employeename;
+  //$node->field_date_of_birth[$node->language][0]['value']  = $dateofbirth;
+  $node->field_gender[$node->language][0]['value']  = $gender;
+  //$node->field_companyname[$node->language][0]['value']  = $companyname;
+  //$node->field_departmentname[$node->language][0]['value']  = $departmentname;
+  //$node->field_branchname[$node->language][0]['value']  = $branchname;
+  
+
+  //$node->field_date_of_joinning[$node->language][0]['value']  = $dateofjoinning;
+  $node->field_designation[$node->language][0]['value']  = $designation;
+  $node->field_marital_status[$node->language][0]['value']  = $maritalstatus;
+  $node->field_name_of_spouse[$node->language][0]['value']  = $nameofspouse;
+  
+  $node->field_email_office[$node->language][0]['value']  = $emailoffice;
+  $node->field_email_personnel[$node->language][0]['value']  = $emailpersonnel;
+  $node->field_current_address[$node->language][0]['value']  = $currentaddress;
+  $node->field_permanent_address[$node->language][0]['value']  = $permanentaddress;
+  $node->field_contact_number1[$node->language][0]['value']  = $contactnumber1;
+  $node->field_contact_number2[$node->language][0]['value']  = $contactnumber2;
+  $node->field_contact_number3[$node->language][0]['value']  = $contactnumber3;
+  $node->field_contact_number4[$node->language][0]['value']  = $contactnumber4;
+  $node->field_emergency_phno[$node->language][0]['value']  = $emergencyphno;
+
+  $node->field_blood_group[$node->language][0]['value']  = $bloodgroup;
+  $node->field_aadhar_card_no[$node->language][0]['value']  = $aadharcardno;
+  $node->field_employee_pan_number[$node->language][0]['value']  = $employeepannumber;
+  $node->field_pf_account_no[$node->language][0]['value']  = $pfaccountno;
+  $node->field_previous_employer[$node->language][0]['value']  = $previousemployer;
+  $node->field_qualification[$node->language][0]['value']  = $qualification;
+  $node->field_background_verification_status[$node->language][0]['value']  = $backgroundverificationstatus;
+  $node->field_experience_details[$node->language][0]['value']  = $experiencedetails;
+  $node->field_bond[$node->language][0]['value']  = $bond;
+  $node->field_confirmation_letter[$node->language][0]['value']  = $confirmationletter;
+  $node->field_last_working_day[$node->language][0]['value']  = $lastworkingday;
+  $node->field_employment_letter[$node->language][0]['value']  = $employmentletter;
+  
+
+  $node->field_last_company_salary[$node->language][0]['value']  = $lastcompanysalary;
+  $node->field_ctc_per_annum[$node->language][0]['value']  = $ctcperannum;
+  $node->field_net_salary[$node->language][0]['value']  = $netsalary;
+  $node->field_reporting_manager_one[$node->language][0]['value']  = $reportingmanagerone;
+  $node->field_reporting_manager_two[$node->language][0]['value']  = $reportingmanagertwo;
+  
+  $node->field_salary_payment_mode[$node->language][0]['value']  = $salarypaymentmode;
+  $node->field_salary_bank_account[$node->language][0]['value']  = $salarybankaccount;
+  $node->field_bank_account_number[$node->language][0]['value']  = $bankaccountnumber;
+  $node->field_ifsc_code[$node->language][0]['value']  = $ifsccode;
+  $node->field_current_position[$node->language][0]['value']  = $currentposition;
+  $node->field_number_of_working_days[$node->language][0]['value']  = $numberofworkingdays;
+  $node->field_internal_job_posting_statu[$node->language][0]['value']  = $internaljobpostingstatus;
+  $node->field_comments[$node->language][0]['value']  = $comments;
+  //$node->field_upload_employee_photo[$node->language][0]['value']  = $uploademployeephoto;
+  $node->field_employee_photo[$node->language][0]['value']  = "http://localhost/hrms/themes/bartik/img/$employeeimage. $employeeext";
+  
+  
+  //$path = 'content/programmatically_created_node_' . date('YmdHis');
+  //$node->path = array('alias' => $path);
+
+    node_save($node);
+   
+  
+      if($node){
+       drupal_set_message("Employee data saved successfully");
+       //drupal_set_message( $company);
+       //drupal_set_message( $branch);
+       //drupal_set_message( $department);
+       
+      }
+     
+
+     
+
+}

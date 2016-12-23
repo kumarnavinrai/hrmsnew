@@ -1,0 +1,204 @@
+<?php
+/**
+ * @filefvg 
+ * This is the main module file.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function branch_form_help($path, $arg) 
+{
+
+  if ($path == 'admin/help#branch_form') 
+  {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The branch_form module allows the user to add branch details to the Drupal site.') . '</p>';
+    return $output;
+  }
+}
+
+function branch_form_menu() {
+  $items['branchform'] = array(
+    'title' => 'BRANCH DETAILS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('branch_form_form'),
+    'access callback' => TRUE,
+    );
+  return $items;
+}
+//field_get_items($entity_type, $entity, $field_name, $langcode = NULL)
+
+
+
+
+
+function branch_form_form($form,&$form_submit) {
+    
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', array('company')) 
+    ->fieldOrderBy('field_company_name', 'value', 'ASC'); 
+    $result = $query->execute();
+    //print_r($result);
+    $nodes = node_load_multiple(array_keys($result['node']));
+    //print_r($nodes);
+   
+    foreach($nodes as $node): 
+      $companydata[$node->nid]= $node->field_company_name[$node->language][0]['value'];
+    endforeach;
+    //print_r($companydata[$node->nid]);
+   // print_r([$node->nid]);
+  
+    $form['company']= array(
+    '#title' => t('Company:'),
+    '#type' => 'select',
+    '#description' => 'Select company.',
+    '#options' =>$companydata,
+    '#required' => TRUE,
+    );
+     
+
+  $form['branchname'] = array(
+    '#title' => t('Branch Name:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['branchcountry'] = array(
+    '#title' => t('Branch Country:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['branchstate'] = array(
+    '#title' => t('Branch State:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['branchcity'] = array(
+    '#title' => t('Branch City:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+
+  $form['branchaddress'] = array(
+    '#title' => t('Branch Address:'),
+    '#type' => 'textarea',
+    '#required' => TRUE,
+  );
+  $form['branchph1'] = array(
+    '#title' => t('Branch Phone No.1:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+   $form['branchph2'] = array(
+    '#title' => t('Branch Phone No.2:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['branchph3'] = array(
+    '#title' => t('Branch Phone No.3:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['branchph4'] = array(
+    '#title' => t('Branch Phone No.4:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['email1'] = array(
+    '#title' => t('Email Address 1:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['email2'] = array(
+    '#title' => t('Email Address 2:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['email3'] = array(
+    '#title' => t('Email Address 3:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['email4'] = array(
+    '#title' => t('Email Address 4:'),
+    '#type' => 'textfield',
+    
+  );
+  $form['skypeid'] = array(
+    '#title' => t('Enter Skype ID:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  
+  $form['submit'] = array(
+    '#value' => 'SUBMIT',
+    '#type' => 'submit',
+    );
+  return $form;
+}
+
+
+
+function branch_form_form_submit($form, &$form_state) {
+
+    //$company = $form_state['values']['company'][$node->nid];
+    $company = $form_state['values']['company'];
+    $branchname = $form_state['values']['branchname'];
+    $branchcountry = $form_state['values']['branchcountry'];
+    $branchstate = $form_state['values']['branchstate'];
+    $branchcity = $form_state['values']['branchcity'];
+    $branchaddress = $form_state['values']['branchaddress'];
+    $branchph1 = $form_state['values']['branchph1'];
+    $branchph2 = $form_state['values']['branchph2'];
+    $branchph3 = $form_state['values']['branchph3'];
+    $branchph4 = $form_state['values']['branchph4'];
+    $email1 = $form_state['values']['email1'];
+    $email2 = $form_state['values']['email2'];
+    $email3 = $form_state['values']['email3'];
+    $email4 = $form_state['values']['email4'];
+    $skypeid = $form_state['values']['skypeid'];
+    
+    print_r( $company);
+    $node = new stdClass();
+    $node->type = 'branch';
+    //node_object_prepare($node);
+    
+    $node->uid = '4';
+    $node->title    = $branchname;
+    $node->language = LANGUAGE_NONE;
+
+    //$node->body[$node->language][0]['value']   = 
+    $node->field_company[$node->language][0]['value'] = $company;
+    $node->field_branch_name[$node->language][0]['value'] = $branchname;
+    $node->field_branch_country[$node->language][0]['value']  = $branchcountry;
+    $node->field_branch_state[$node->language][0]['value']  = $branchstate;
+    $node->field_branch_city[$node->language][0]['value']  = $branchcity;
+    $node->field_branch_address[$node->language][0]['value']  = $branchaddress;
+    $node->field_branch_ph1[$node->language][0]['value']  = $branchph1;
+    $node->field_branch_ph2[$node->language][0]['value']  = $branchph2;
+    $node->field_branch_ph3[$node->language][0]['value']  = $branchph3;
+    $node->field_branch_ph4[$node->language][0]['value']  = $branchph4;
+    $node->field_email1[$node->language][0]['value']  = $email1;
+    $node->field_email2[$node->language][0]['value']  = $email2;
+    $node->field_email3[$node->language][0]['value']  = $email3;
+    $node->field_email4[$node->language][0]['value']  = $email4;
+    $node->field_skypeid[$node->language][0]['value']  = $skypeid;
+  
+  //$path = 'content/programmatically_created_node_' . date('YmdHis');
+  //$node->path = array('alias' => $path);
+
+    node_save($node);
+   
+  
+      if($node){
+       drupal_set_message("Branch data saved successfully");
+       //drupal_set_message( $company);
+      
+
+
+      }
+     
+     
+}

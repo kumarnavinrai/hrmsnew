@@ -1,0 +1,194 @@
+<?php
+/**
+ * @filefvg 
+ * This is the main module file.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function manage_salary_help($path, $arg) 
+{
+
+  if ($path == 'admin/help#manage_salary') 
+  {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The manage_salary module allows the user to add salary details to the Drupal site.') . '</p>';
+    return $output;
+  }
+}
+
+function manage_salary_menu() {
+  $items['salaryform'] = array(
+    'title' => 'EMPLOYEE SALARY DETAILS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('manage_salary_form'),
+    'access callback' => TRUE,
+    );
+  return $items;
+}
+
+function manage_salary_form($form,&$form_submit) {
+
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', array('employee')) 
+    ->fieldOrderBy('field_employee_name', 'value', 'ASC'); 
+    $result = $query->execute();
+    
+    $nodes = node_load_multiple(array_keys($result['node']));
+   
+    foreach($nodes as $node): 
+      $employeedata[$node->nid]= $node->field_employee_name[$node->language][0]['value'];
+    //print_r($branchdata);
+    endforeach;
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', array('employee')) 
+    ->fieldOrderBy('field_employee_id', 'value', 'ASC'); 
+    $result = $query->execute();
+    
+    $nodes = node_load_multiple(array_keys($result['node']));
+   
+    foreach($nodes as $node): 
+      $employeeid[$node->nid]= $node->field_employee_id[$node->language][0]['value'];
+    //print_r($branchdata);
+    endforeach;
+
+
+     $form['employee'] = array(
+    '#title' => t('Employee Name:'),
+    '#type' => 'select',
+    '#description' => 'Select name.',
+    '#options' => $employeedata,
+    //'#default_value' => isset($form_state['values']['dropdown_second']) ? $form_state['values']['dropdown_second'] : '',
+    '#required' => TRUE,
+    );
+   
+  $form['employeeid'] = array(
+    '#title' => t('Employee ID:'),
+    '#type' => 'select',
+    '#description' => 'Select name.',
+    '#options' => $employeeid,
+    //'#default_value' => isset($form_state['values']['dropdown_second']) ? $form_state['values']['dropdown_second'] : '',
+    '#required' => TRUE,
+    );
+   
+
+  $form['basicsalary'] = array(
+    '#title' => t('Basic Salary:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['allowances'] = array(
+    '#title' => t('Allowances:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['otherincome'] = array(
+    '#title' => t('Other Income:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['eincome'] = array(
+    '#title' => t('E Income:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['lop'] = array(
+    '#title' => t('LOP:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['deductions'] = array(
+    '#title' => t('Deductions:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['loan'] = array(
+    '#title' => t('Loan:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['totalsalary'] = array(
+    '#title' => t('Total Salary:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  
+  $selectoptions = array(
+  'finalize' => t('Finalize'),
+  'cancel' => t('Cancel'), 
+ 
+  );
+  $form['selectoption'] = array(
+  '#title' => t('Select Correct Option:'),
+  '#type' => 'checkboxes',
+  //'#description' => t('Select the pizza toppings you would like.'),
+  '#options' => $selectoptions,
+  );
+  
+  $form['submit'] = array(
+    '#value' => 'SUBMIT',
+    '#type' => 'submit',
+    );
+  return $form;
+}
+
+function manage_salary_form_form_submit($form, &$form_state) {
+
+    //$company = $form_state['values']['company'][$node->nid];
+    $employee = $form_state['values']['employee'];
+
+    $employeeid = $form_state['values']['employeeid'];
+    $basicsalary = $form_state['values']['basicsalary'];
+    $allowances = $form_state['values']['allowances'];
+    $otherincome = $form_state['values']['otherincome'];
+    $eincome = $form_state['values']['eincome'];
+    $lop = $form_state['values']['lop'];
+    $deductions = $form_state['values']['deductions'];
+    $loan = $form_state['values']['loan'];
+    $totalsalary = $form_state['values']['totalsalary'];
+    $selectoption = $form_state['values']['selectoption'];
+   
+    
+    
+    $node = new stdClass();
+    $node->type = 'manage_salary';
+    //node_object_prepare($node);
+    
+    $node->uid = '4';
+    $node->title    = 'Name:'.$employee.''.'ID:'.$employeeid;
+    $node->language = LANGUAGE_NONE;
+
+    //$node->body[$node->language][0]['value']   = 
+    $node->field_employee[$node->language][0]['value'] =$employee;
+    $node->field_employeeid[$node->language][0]['value'] = $employeeid;
+    $node->field_basicsalary[$node->language][0]['value']  = $basicsalary;
+    $node->field_allowances[$node->language][0]['value']  =  $allowances;
+    $node->field_otherincome[$node->language][0]['value']  = $otherincome;
+    $node->field_eincome[$node->language][0]['value']  = $eincome;
+    $node->field_lop[$node->language][0]['value']  = $lop;
+    $node->field_deductions[$node->language][0]['value']  =  $deductions;
+    $node->field_loan[$node->language][0]['value']  = $loan;
+    $node->field_totalsalary[$node->language][0]['value']  = $totalsalary;
+    $node->field_selectoption[$node->language][0]['value']  =  $selectoption;
+  
+  //$path = 'content/programmatically_created_node_' . date('YmdHis');
+  //$node->path = array('alias' => $path);
+
+    node_save($node);
+   
+  
+      if($node){
+       drupal_set_message("Branch data saved successfully");
+       //drupal_set_message( $company);
+      
+
+
+      }
+     
+     
+}

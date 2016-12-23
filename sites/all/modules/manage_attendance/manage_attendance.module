@@ -1,0 +1,154 @@
+<?php
+/**
+ * @filefvg 
+ * This is the main module file.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function manage_attendance_help($path, $arg) 
+{
+
+  if ($path == 'admin/help#manage_attendance') 
+  {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The manage_attendance module allows the user to manage attendance details.') . '</p>';
+    return $output;
+  }
+}
+
+function manage_attendance_menu() {
+  $items['salaryform'] = array(
+    'title' => 'Add Employees Salary Details',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('salary_form_form'),
+    'access callback' => TRUE,
+    );
+  return $items;
+}
+
+function manage_attendance_form($form,&$form_submit) {
+  $form['employeename'] = array(
+    '#title' => t('Employee Name'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['employeeid'] = array(
+    '#title' => t('Employee Id'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['noofdayspresent'] = array(
+    '#title' => t('No Of Days Present'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['totalleaves'] = array(
+    '#title' => t('Total Number Of Leaves'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['intime'] = array(
+    '#title' => t('In-Time'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['outtime'] = array(
+    '#title' => t('Out Time'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['totalworkinghours '] = array(
+    '#title' => t('Total Working Hours '),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $permanentstatus = array(
+  'finalize' => t('Yes'),
+  'cancel' => t('No'), 
+ 
+  );
+  $form['permanent'] = array(
+  '#title' => t('Permanent'),
+  '#type' => 'checkboxes',
+  //'#description' => t('Select the pizza toppings you would like.'),
+  '#options' => $permanentstatus,
+  );
+  $form['totalovertime'] = array(
+    '#title' => t('Total Overtime'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $defaultvalues = array(
+  'finalize' => t('Yes'),
+  'cancel' => t('No'), 
+  );
+  $form['setdefaultvalues'] = array(
+  '#title' => t('Set Default Values'),
+  '#type' => 'checkboxes',
+  //'#description' => t('Select the pizza toppings you would like.'),
+  '#options' => $defaultvalues,
+  );
+  $form['submit'] = array(
+    '#value' => 'Submit',
+    '#type' => 'submit',
+    );
+  return $form;
+}
+
+function manage_attendance_form_form_submit($form, &$form_state) {
+
+    //$company = $form_state['values']['company'][$node->nid];
+    $employee = $form_state['values']['employee'];
+
+    $employeeid = $form_state['values']['employeeid'];
+    $basicsalary = $form_state['values']['basicsalary'];
+    $allowances = $form_state['values']['allowances'];
+    $otherincome = $form_state['values']['otherincome'];
+    $eincome = $form_state['values']['eincome'];
+    $lop = $form_state['values']['lop'];
+    $deductions = $form_state['values']['deductions'];
+    $loan = $form_state['values']['loan'];
+    $totalsalary = $form_state['values']['totalsalary'];
+    $selectoption = $form_state['values']['selectoption'];
+   
+    
+    
+    $node = new stdClass();
+    $node->type = 'manage_salary';
+    //node_object_prepare($node);
+    
+    $node->uid = '4';
+    $node->title    = 'Name:'.$employee.''.'ID:',$employeeid;
+    $node->language = LANGUAGE_NONE;
+
+    //$node->body[$node->language][0]['value']   = 
+    $node->field_employee[$node->language][0]['value'] =$employee;
+    $node->field_employeeid[$node->language][0]['value'] = $employeeid;
+    $node->field_basicsalary[$node->language][0]['value']  = $basicsalary;
+    $node->field_allowances[$node->language][0]['value']  =  $allowances;
+    $node->field_otherincome[$node->language][0]['value']  = $otherincome;
+    $node->field_eincome[$node->language][0]['value']  = $eincome;
+    $node->field_lop[$node->language][0]['value']  = $lop;
+    $node->field_deductions[$node->language][0]['value']  =  $deductions;
+    $node->field_loan[$node->language][0]['value']  = $loan;
+    $node->field_totalsalary[$node->language][0]['value']  = $totalsalary;
+    $node->field_selectoption[$node->language][0]['value']  =  $selectoption;
+  
+  //$path = 'content/programmatically_created_node_' . date('YmdHis');
+  //$node->path = array('alias' => $path);
+
+    node_save($node);
+   
+  
+      if($node){
+       drupal_set_message("Branch data saved successfully");
+       //drupal_set_message( $company);
+      
+
+
+      }
+     
+     
+}

@@ -1,0 +1,176 @@
+<?php
+
+/** 
+ * @filefvg 
+ * This is the main module file.
+ */
+
+/**
+ * Implements hook_help().
+ */
+
+
+function company_form_help($path, $arg) 
+{
+
+  if ($path == 'admin/help#company_form') 
+  {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The company_form module allows the user to add new comapny details to the Drupal site.') . '</p>';
+    return $output;
+  }
+}
+
+function company_form_menu() {
+  $items['companyform'] = array(
+    'title' => 'COMPANY DETAILS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('company_form_form'),
+    'access callback' => TRUE,
+    );
+  return $items;
+}
+
+function company_form_form($form,&$form_submit) {
+  $form['companyname'] = array(
+    '#title' => t('Company Name:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['companyaddress'] = array(
+    '#title' => t('Company Address:'),
+    '#type' => 'textarea',
+    '#rows' => '3',
+    '#required' => TRUE,
+  );
+  $form['itmonth'] = array(
+    '#title' => t('IT Month:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['tinnumber'] = array(
+    '#title' => t('TIN:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['pannumber'] = array(
+    '#title' => t('PAN:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['esinumber'] = array(
+    '#title' => t('ESI:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+
+  $form['pfnumber'] = array(
+    '#title' => t('PF:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['bankaccountdetails'] = array(
+    '#title' => t('Bank:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['companylogo'] = array(
+    '#type' => 'managed_file',
+    '#title' => t('Upload Logo:'),
+
+    '#default_value' =>!empty($values['companylogo']) ? $values['companylogo'] : '',
+    //'#description' => 'Try to upload a thumbnail image',
+    '#upload_validators' => array(
+      'file_validate_extensions' => array('png jpg jpeg'),
+    ),
+    '#upload_location' => 'private://companylogo',
+  );
+  $form['submit'] = array(
+    '#value' => 'SUBMIT',
+    '#type' => 'submit',
+  );
+ 
+  return $form;
+  
+}
+
+
+
+
+
+function company_form_form_validate($form, &$form_state) {
+ 
+}
+
+
+function company_form_form_submit($form, &$form_state) {
+
+    
+   
+
+    $companyname = $form_state['values']['companyname'];
+    $companyaddress = $form_state['values']['companyaddress'];
+    $itmonth = $form_state['values']['itmonth'];
+    $tinnumber = $form_state['values']['tinnumber'];
+    $pannumber = $form_state['values']['pannumber'];
+    $esinumber = $form_state['values']['esinumber'];
+    $pfnumber = $form_state['values']['pfnumber'];
+    $bankaccountdetails = $form_state['values']['bankaccountdetails'];
+    //$companylogo = $form_state['values']['companylogo'];
+    //$companylogo = bin2hex("$companylogo");
+    //drupal_set_message("$companylogo");
+    //$companylogo = bin2hex("$companylogo");
+    $f = file_load($form_state['values']['companylogo']);
+
+    $filename = ($f->filename);
+    $filename = explode('.', $filename);
+    $companyimage = bin2hex($filename[0]);
+    //print_r($companyimage);die;
+    $companyext = $filename[1];
+   
+    //drupal_set_message("$filename");
+
+
+    $node = new stdClass();
+    $node->type = 'company';
+    //node_object_prepare($node);
+   
+
+    
+    $node->uid = '4';
+    $node->title    = $companyname;
+    
+    $node->language = LANGUAGE_NONE;
+
+  //$node->body[$node->language][0]['value']   = 
+  $node->field_company_name[$node->language][0]['value'] = $companyname;
+  $node->field_company_address[$node->language][0]['value']  = $companyaddress;
+  $node->field_it_month[$node->language][0]['value']  = $itmonth;
+  $node->field_tin_number[$node->language][0]['value']  = $tinnumber;
+  $node->field_pan_number[$node->language][0]['value']  = $pannumber;
+  $node->field_esi_number[$node->language][0]['value']  = $esinumber;
+  $node->field_pf_number[$node->language][0]['value']  = $pfnumber;
+  $node->field_bank_account_details[$node->language][0]['value']  = $bankaccountdetails;
+  $node->field_company_logo[$node->language][0]['value']  = "http://localhost/hrms/themes/bartik/img/$companyimage.$companyext";
+    //$node->field_company_logo[$node->language][0]['value']  = $base_url."/hrms/themes/bartik/img/$companyimage.$companyext";
+  
+  //$path = 'content/programmatically_created_node_' . date('YmdHis');
+  //$node->path = array('alias' => $path);
+
+    node_save($node);
+   
+  
+      if($node){
+       drupal_set_message("Company data saved successfully");
+       
+      }
+     
+
+     
+//$companyitem = field_get_items('node', $node, 'field_company_name', $node->language);
+//print_r($companyitem);die;
+}
+
+
+
+//drupal_set_message($row);

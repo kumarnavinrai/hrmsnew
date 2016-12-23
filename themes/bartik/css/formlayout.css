@@ -1,0 +1,222 @@
+/*new*/
+
+/*.form-item-title {
+    display: none;
+}*/
+#header
+{
+     
+    
+}
+  h1#page-title {
+  text-align: center;
+	}
+	h1#page-title {
+    font-size: 2.5em;
+	}
+.form-item-title {
+
+}
+.form-item label {
+    font-size: 1.2em;
+    /*text-align: center;*/
+    float: left;
+    width: 20em;
+}
+input.form-text,textarea.form-textarea {
+    display: inline;
+    width:auto;
+    height: 40px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: #ccc;
+}
+.form-item label#edit-title {
+	display: none;
+}
+h1#page-title.title {
+    font-size: 36px;
+   
+    font-weight: bold;
+    
+}
+label {
+    padding-top: 7px;
+    margin-bottom: 0;
+    /*text-align: right;*/
+    padding-right: 20px;
+}
+label {
+    display: inline-block;
+    max-width: 100%;
+    }
+input#edit-field{
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;  
+    }
+    #content .section{
+    padding: 0 15px;
+    display: block;
+}
+#sidebar-first{
+    display: none;
+}
+
+div.section.clearfix {
+   
+    /*padding-top: 10px;*/
+}
+ul.nav.navbar-nav.navbar-right{
+    padding-right: 20px;
+}
+div.navbar.navbar-inverse.navbar-fixed-top{
+    font-size: 20px;
+}
+#footer-wrapper {
+    display: none;
+}
+input#edit-submit.form-submit{
+    background-color:#ccc;
+    padding: 5px;
+    /*border-color: black;*/
+    border-radius: 4px;
+    font-size: 1.5em;
+    color: black;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    /*float: right;*/
+
+}
+body{
+    padding-top: 10px;
+
+}
+#header {
+background-color: ;
+background-image: none;
+}
+
+.breadcrumb {
+    display: none;
+}
+#toolbar {
+    background: #fff;
+    
+}
+#content .section {
+    border-style: ridge;
+}
+
+
+.resizable-textarea .grippie {
+   display: none;
+}
+
+#header div.section {
+    padding-bottom: 20px;
+
+   
+}
+
+
+select{
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    width:20%;
+    height:30px;
+    background-color: #ccc;
+    border-color: black;
+    
+}
+
+div.content {
+  border-top: 1px solid black;
+}
+
+.form-managed-file .form-submit {
+    background-color:#ccc;
+    /*border-color: black;*/
+    
+    font-size: 1.5em;
+    color: black;
+
+    }
+
+.form-managed-file .form-file {
+    background-color:#ccc;
+    /*border-color: black;*/
+    
+    font-size: 1.5em;
+    color: black;
+
+}
+
+
+
+input[type=submit] {
+    
+    margin-top: 20px;
+    padding-right: 50px;
+    float:center;
+}
+
+
+th.views-field.views-field-title {
+    
+     padding-right: 40px;
+}
+}
+th.views-field.views-field-field-company-address {
+    font-size: 20px;
+    padding-right: 50px;
+}
+
+th.views-field.views-field-field-bank-account-details{
+
+    padding-right: 50px;
+}
+
+th.views-field.views-field-field-tin-number{
+    padding-right: 50px; 
+}
+
+th.views-field.views-field-field-pan-number{
+     padding-right: 50px; 
+}
+
+.one-sidebar #content {
+    width: 1000px;
+    height:500px;
+}
+table.views-table.cols-5 {
+    width: 970px;
+}
+tbody{
+     width: 1000px; 
+}
+
+ h1.views-field.views-field-title {
+    font-size: 20px;
+}
+
+.view.view-branch.view-id-branch.view-display-id-page.anishabranch.view-dom-id-3eb71410880abac949a19d522b8da722 .view-content table.views-table.cols-5{
+    color: red;
+
+}

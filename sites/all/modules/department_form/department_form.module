@@ -1,0 +1,153 @@
+<?php
+/**
+ * @filefvg 
+ * This is the main module file.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function department_form_help($path, $arg) 
+{
+
+  if ($path == 'admin/help#department_form') 
+  {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The department_form module allows the user to add department details to the Drupal site.') . '</p>';
+    return $output;
+  }
+}
+
+function department_form_menu() {
+  $items['departmentform'] = array(
+    'title' => 'DEPARTMENT DETAILS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('department_form_form'),
+    'access callback' => TRUE,
+    );
+  return $items;
+}
+
+function department_form_form($form,&$form_submit) {
+
+   
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', array('company')) 
+    ->fieldOrderBy('field_company_name', 'value', 'ASC'); 
+    $result = $query->execute();
+    
+    $nodes = node_load_multiple(array_keys($result['node']));
+    foreach($nodes as $node): 
+      $companydata[$node->nid]= $node->field_company_name[$node->language][0]['value'];
+    //print_r($companydata);
+    endforeach;
+
+    //$dropdown_first = isset($form_state['values']['company']) ? $form_state['values']['company'] : key($companydata);
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', array('branch')) 
+    ->fieldOrderBy('field_branch_name', 'value', 'ASC'); 
+    $result = $query->execute();
+    
+    $nodes = node_load_multiple(array_keys($result['node']));
+    foreach($nodes as $node): 
+      $branchdata[$node->nid]= $node->field_branch_name[$node->language][0]['value'];
+    endforeach;
+    
+    //print_r($branchdata);
+    
+    $form['company'] = array(
+    '#title' => t('Company:'),
+    '#type' => 'select',
+    '#description' => 'Select company.',
+    '#options' => $companydata,
+    //'#default_value' => $dropdown_first,
+    '#required' => TRUE,
+    );
+   
+   
+    $form['branch'] = array(
+    '#title' => t('Branch:'),
+    '#type' => 'select',
+    '#description' => 'Select branch.',
+    '#options' => $branchdata,
+    //'#default_value' => $dropdown_first,
+    '#required' => TRUE,
+    );
+   
+   
+   
+
+
+
+
+    
+
+  $form['departmentname'] = array(
+    '#title' => t('Department Name:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['departmentprefrence'] = array(
+    '#title' => t('Department Prefrence:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['overtimestatus'] = array(
+    '#title' => t('Overtime Status:'),
+    '#type' => 'select',
+    '#options' => array(t('Yes'), t('No')),
+    '#required' => TRUE,
+  );
+  $form['overtimeperhour'] = array(
+    '#title' => t('Overtime per Hour:'),
+    '#type' => 'textfield',
+    
+  );
+  
+  $form['submit'] = array(
+    '#value' => 'SUBMIT',
+    '#type' => 'submit',
+    );
+  return $form;
+}
+
+function department_form_form_submit($form, &$form_state) {
+
+    $company = $form_state['values']['company'];
+    $branch = $form_state['values']['branch'];
+    $departmentname = $form_state['values']['departmentname'];
+    $departmentprefrence = $form_state['values']['departmentprefrence'];
+    $overtimestatus = $form_state['values']['overtimestatus'];
+    $overtimeperhour = $form_state['values']['overtimeperhour'];
+   
+    $node = new stdClass();
+    $node->type = 'department';
+    //node_object_prepare($node);
+     $node->uid = '4';
+    $node->title    = $departmentname;
+    $node->language = LANGUAGE_NONE;
+
+    $node->field_companylist[$node->language][0]['value'] = $company;
+    $node->field_branch[$node->language][0]['value'] = $branch;
+    $node->field_department_name[$node->language][0]['value'] = $departmentname;
+    $node->field_department_preference[$node->language][0]['value']  = $departmentprefrence;
+    $node->field_overtimestatus[$node->language][0]['value']  =   $overtimestatus;
+    $node->field_overtimeperhour[$node->language][0]['value']  =  $overtimeperhour;
+   
+  
+ 
+
+    node_save($node);
+   
+  
+      if($node){
+       drupal_set_message("Department data saved successfully");
+       //drupal_set_message( $company);
+       //drupal_set_message( $branch);
+      }
+     
+     
+}
