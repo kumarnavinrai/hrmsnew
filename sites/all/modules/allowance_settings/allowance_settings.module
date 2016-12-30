@@ -19,8 +19,8 @@ function allowance_settings_help($path, $arg)
 }
 
 function allowance_settings_menu() {
-  $items['allowanceform'] = array(
-    'title' => 'Allowance Settings',
+  $items['allowance'] = array(
+    'title' => 'ALLOWANCE',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('allowance_settings_form'),
     'access callback' => TRUE,
@@ -31,25 +31,26 @@ function allowance_settings_menu() {
 function allowance_settings_form($form,&$form_submit) {
 
   $form['allowancename'] = array(
-    '#title' => t('Allowance Name'),
+    '#title' => t('Name:'),
     '#type' => 'textfield',
     '#required' => TRUE,
   );
  $form['allowancetype'] = array(
-  '#title' => t('Select Allowance Type:'),
+  '#title' => t('Type:'),
   '#type' => 'select',
   
   '#options' => array(t('Percentage'), t('Fixed')),
   '#required' => TRUE,
   );
   $form['allowancevalue'] = array(
-    '#title' => t('Allowance value'),
+    '#title' => t('Value:'),
     '#type' => 'textfield',
     '#required' => TRUE,
   );
  
   $form['submit'] = array(
     '#value' => 'SUBMIT',
+    '#attributes' => array('class' => array('mysubmit')),
     '#type' => 'submit',
     );
   return $form;
@@ -59,12 +60,8 @@ function allowance_settings_form_form_submit($form, &$form_state) {
 
     //$company = $form_state['values']['company'][$node->nid];
     $allowancename = $form_state['values']['allowancename'];
-
-    $allowancetype = $form_state['values']['allowancetype'];
+    $allowancetype =  $form['allowancetype']['#options'][$form_state['values']['allowancetype']];
     $allowancevalue = $form_state['values']['allowancevalue'];
-    
-   
-    
     
     $node = new stdClass();
     $node->type = 'allowance_settings';

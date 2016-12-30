@@ -13,21 +13,35 @@
      <ul class="dropdown-menu" role="menu">
       <li><a href="branch">View List</a></li>
       <li><a href="branchform">Add Branch</a></li>
-      <li><a href="#">Edit Details</a></li>
+     
      </ul></li>
    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Department<span class="caret"></span></a>
      <ul class="dropdown-menu" role="menu">
       <li><a href="department">View List</a></li>
       <li><a href="departmentform">Add Department</a></li>
-      <li><a href="#">Edit Details</a></li>
+     
      </ul></li>
   <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Employees<span class="caret"></span></a>
      <ul class="dropdown-menu" role="menu">
       <li><a href="employee">View List</a></li>
       <li><a href="employeeform">Add Employees</a></li>
-      <li><a href="#">Edit Details</a></li>
+    
      </ul></li>
-   <li><a href="salaryform">Salary</a></li>
+    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span></a>
+     <ul class="dropdown-menu" role="menu">
+      <li><a href="salaryform">Add Salary</a></li>
+      <li><a href="salary">View Salary</a></li>
+      <li class="divider"></li>
+      <li><a href="attendance">Add Attendance</a></li>
+      <li><a href="attendancelist">View Attendance</a></li>
+      <li class="divider"></li>
+      <li><a href="allowance">Add Allowance</a></li>
+      <li><a href="allowancelist">View Allowance</a></li>
+      <li class="divider"></li>
+      <li><a href="holidays">Holidays</a></li>
+      <li><a href="holidayslist">View Holidays</a></li>
+     
+     </ul></li>
     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Generate Report<span class="caret"></span></a>
      <ul class="dropdown-menu" role="menu">
       <li><a href="#">Sub Menu1</a></li>

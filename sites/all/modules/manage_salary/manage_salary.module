@@ -20,7 +20,7 @@ function manage_salary_help($path, $arg)
 
 function manage_salary_menu() {
   $items['salaryform'] = array(
-    'title' => 'EMPLOYEE SALARY DETAILS',
+    'title' => 'SALARY',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('manage_salary_form'),
     'access callback' => TRUE,
@@ -58,10 +58,10 @@ function manage_salary_form($form,&$form_submit) {
     endforeach;
 
 
-     $form['employee'] = array(
+    $form['employee'] = array(
     '#title' => t('Employee Name:'),
     '#type' => 'select',
-    '#description' => 'Select name.',
+/*    '#description' => 'Select name.',*/
     '#options' => $employeedata,
     //'#default_value' => isset($form_state['values']['dropdown_second']) ? $form_state['values']['dropdown_second'] : '',
     '#required' => TRUE,
@@ -70,7 +70,7 @@ function manage_salary_form($form,&$form_submit) {
   $form['employeeid'] = array(
     '#title' => t('Employee ID:'),
     '#type' => 'select',
-    '#description' => 'Select name.',
+   /* '#description' => 'Select name.',*/
     '#options' => $employeeid,
     //'#default_value' => isset($form_state['values']['dropdown_second']) ? $form_state['values']['dropdown_second'] : '',
     '#required' => TRUE,
@@ -82,7 +82,7 @@ function manage_salary_form($form,&$form_submit) {
     '#type' => 'textfield',
     '#required' => TRUE,
   );
-  $form['allowances'] = array(
+  $form['allowance'] = array(
     '#title' => t('Allowances:'),
     '#type' => 'textfield',
     '#required' => TRUE,
@@ -124,7 +124,7 @@ function manage_salary_form($form,&$form_submit) {
  
   );
   $form['selectoption'] = array(
-  '#title' => t('Select Correct Option:'),
+  '#title' => t('Select Option:'),
   '#type' => 'checkboxes',
   //'#description' => t('Select the pizza toppings you would like.'),
   '#options' => $selectoptions,
@@ -132,6 +132,7 @@ function manage_salary_form($form,&$form_submit) {
   
   $form['submit'] = array(
     '#value' => 'SUBMIT',
+    '#attributes' => array('class' => array('mysubmit')),
     '#type' => 'submit',
     );
   return $form;
@@ -140,11 +141,11 @@ function manage_salary_form($form,&$form_submit) {
 function manage_salary_form_form_submit($form, &$form_state) {
 
     //$company = $form_state['values']['company'][$node->nid];
-    $employee = $form_state['values']['employee'];
-
-    $employeeid = $form_state['values']['employeeid'];
+   
+    $employee =  $form['employee']['#options'][$form_state['values']['employee']];
+    $employeeid =  $form['employeeid']['#options'][$form_state['values']['employeeid']];
     $basicsalary = $form_state['values']['basicsalary'];
-    $allowances = $form_state['values']['allowances'];
+    $allowance = $form_state['values']['allowance'];
     $otherincome = $form_state['values']['otherincome'];
     $eincome = $form_state['values']['eincome'];
     $lop = $form_state['values']['lop'];
@@ -160,20 +161,20 @@ function manage_salary_form_form_submit($form, &$form_state) {
     //node_object_prepare($node);
     
     $node->uid = '4';
-    $node->title    = 'Name:'.$employee.''.'ID:'.$employeeid;
+    $node->title    = $employee;
     $node->language = LANGUAGE_NONE;
 
     //$node->body[$node->language][0]['value']   = 
-    $node->field_employee[$node->language][0]['value'] =$employee;
+    $node->field_employeelist[$node->language][0]['value'] =$employee;
     $node->field_employeeid[$node->language][0]['value'] = $employeeid;
-    $node->field_basicsalary[$node->language][0]['value']  = $basicsalary;
-    $node->field_allowances[$node->language][0]['value']  =  $allowances;
-    $node->field_otherincome[$node->language][0]['value']  = $otherincome;
+    $node->field_basic_salary[$node->language][0]['value']  = $basicsalary;
+    $node->field_allowance[$node->language][0]['value']  =  $allowance;
+    $node->field_other_income[$node->language][0]['value']  = $otherincome;
     $node->field_eincome[$node->language][0]['value']  = $eincome;
     $node->field_lop[$node->language][0]['value']  = $lop;
     $node->field_deductions[$node->language][0]['value']  =  $deductions;
     $node->field_loan[$node->language][0]['value']  = $loan;
-    $node->field_totalsalary[$node->language][0]['value']  = $totalsalary;
+    $node->field_total_salary[$node->language][0]['value']  = $totalsalary;
     $node->field_selectoption[$node->language][0]['value']  =  $selectoption;
   
   //$path = 'content/programmatically_created_node_' . date('YmdHis');
@@ -183,7 +184,7 @@ function manage_salary_form_form_submit($form, &$form_state) {
    
   
       if($node){
-       drupal_set_message("Branch data saved successfully");
+       drupal_set_message("Salary details saved successfully");
        //drupal_set_message( $company);
       
 

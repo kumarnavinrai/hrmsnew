@@ -20,7 +20,7 @@ function employee_form_help($path, $arg)
 
 function employee_form_menu() {
   $items['employeeform'] = array(
-    'title' => 'EMPLOYEE DETAILS',
+    'title' => 'EMPLOYEE',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('employee_form_form'),
     'access callback' => TRUE,
@@ -89,7 +89,7 @@ function employee_form_form($form,&$form_submit) {
     $form['department'] = array(
     '#title' => t('Department:'),
     '#type' => 'select',
-    '#description' => 'Select branch.',
+    '#description' => 'Select department.',
     '#options' => $departmentdata,
     '#required' => TRUE,
     );
@@ -108,17 +108,26 @@ function employee_form_form($form,&$form_submit) {
     '#type' => 'textfield',
     '#required' => TRUE,
   );
+   
+  $format = 'd-m-Y';
+
   $form['dateofbirth'] = array(
+    '#type' => 'date_popup', 
+    '#title' => 'Date Of Birth',
+    //'#default_value' => date('c'), //check that out: date in ISO format
+     '#date_format' => $format,
+     '#date_label_position' => 'within',
+     //'#date_timezone' => 'Europe/Rome', 
+     //'#date_increment' => 15, 
+      '#date_year_range' => '1950:2000', 
+ );
+  /*$form['dateofbirth'] = array(
   '#title' => t('Date Of Birth:'),
   '#type' => 'date',
   '#description' => t('Select date of birth'),
-  '#default_value' => array(
-    'month' => format_date(time(), 'custom', 'n'), 
-    'day' => format_date(time(), 'custom', 'j'), 
-    'year' => format_date(time(), 'custom', 'Y'),
-  ),
+  
    '#required' => TRUE,
-  );
+  );*/
   $form['gender'] = array(
   '#title' => t('Gender:'),
   '#type' => 'select',
@@ -126,18 +135,24 @@ function employee_form_form($form,&$form_submit) {
   '#options' => array(t('-Select-'),t('Male'), t('Female')),
   );
 
-  
-   $form['dateofjoinning'] = array(
+  $form['dateofjoinning'] = array(
+    '#type' => 'date_popup', 
+    '#title' => 'Date Of Joinning',
+    //'#default_value' => date('c'), //check that out: date in ISO format
+     '#date_format' => $format,
+     '#date_label_position' => 'within',
+     //'#date_timezone' => 'Europe/Rome', 
+     //'#date_increment' => 15, 
+     '#date_year_range' => '2006:2017', 
+ );
+
+  /*$form['dateofjoinning'] = array(
   '#title' => t('Date Of joinning:'),
   '#type' => 'date',
   '#description' => t('Select date of joinning'),
-  '#default_value' => array(
-    'month' => format_date(time(), 'custom', 'n'), 
-    'day' => format_date(time(), 'custom', 'j'), 
-    'year' => format_date(time(), 'custom', 'Y'),
-  ),
+  
    '#required' => TRUE,
-  );
+  );*/
   $form['designation'] = array(
     '#title' => t('Designation:'),
     '#type' => 'textfield',
@@ -210,7 +225,7 @@ function employee_form_form($form,&$form_submit) {
     '#required' => TRUE,
   );
   $form['employeepannumber'] = array(
-    '#title' => t('Employee PAN Number:'),
+    '#title' => t('PAN Number:'),
     '#type' => 'textfield',
     '#required' => TRUE,
   );
@@ -298,7 +313,7 @@ function employee_form_form($form,&$form_submit) {
   '#required' => TRUE,
   );
   $form['salarybankaccount'] = array(
-  '#title' => t('Employee Salary Bank Account:'),
+  '#title' => t('Salary Bank Account:'),
   '#type' => 'select',
   
   '#options' => array(t('HDFC'), t('SBI'), t('PNB'), t('Bank Of Baroda')),
@@ -347,6 +362,7 @@ function employee_form_form($form,&$form_submit) {
   );
   $form['submit'] = array(
     '#value' => 'SUBMIT',
+    '#attributes' => array('class' => array('mysubmit')),
     '#type' => 'submit',
   );
   return $form;
@@ -359,19 +375,21 @@ function employee_form_form_validate($form, &$form_state) {
 
 function employee_form_form_submit($form, &$form_state) {
 
-    $company = $form_state['values']['company'];
-    $branch = $form_state['values']['branch'];
-    $department = $form_state['values']['department'];
+    $company =  $form['company']['#options'][$form_state['values']['company']];
+    $branch =  $form['branch']['#options'][$form_state['values']['branch']];
+    $department =  $form['department']['#options'][$form_state['values']['department']];
+   
     $employeeid = $form_state['values']['employeeid'];
     $employeename = $form_state['values']['employeename'];
-    $dateofbirth = $form_state['values']['dateofbirth'];
-    $gender = $form_state['values']['gender'];
+    $dateofbirth =$form_state['values']['dateofbirth'];
+
+    $gender =  $form['gender']['#options'][$form_state['values']['gender']];
     //$companyname = $form_state['values']['companyname'];
     //$branchname = $form_state['values']['branchname'];
     //$departmentname = $form_state['values']['departmentname'];
     $dateofjoinning = $form_state['values']['dateofjoinning'];
     $designation = $form_state['values']['designation'];
-    $maritalstatus = $form_state['values']['maritalstatus'];
+    $maritalstatus =  $form['maritalstatus']['#options'][$form_state['values']['maritalstatus']];
     $nameofspouse = $form_state['values']['nameofspouse'];
     
     $emailoffice = $form_state['values']['emailoffice'];
@@ -391,22 +409,26 @@ function employee_form_form_submit($form, &$form_state) {
     $previousemployer = $form_state['values']['previousemployer'];
     //$companylogo = bin2hex("$companylogo");
     $qualification = $form_state['values']['qualification'];
-    $backgroundverificationstatus = $form_state['values']['backgroundverificationstatus'];
- 
+  
+    $backgroundverificationstatus =  $form['backgroundverificationstatus']['#options'][$form_state['values']['backgroundverificationstatus']];
 
    
     $experiencedetails = $form_state['values']['experiencedetails'];
     $bond = $form_state['values']['bond'];
-    $confirmationletter = $form_state['values']['confirmationletter'];
+   
+    $confirmationletter =  $form['confirmationletter']['#options'][$form_state['values']['confirmationletter']];
     $lastworkingday = $form_state['values']['lastworkingday'];
-    $employmentletter = $form_state['values']['employmentletter'];
+  
+    $employmentletter =  $form['employmentletter']['#options'][$form_state['values']['employmentletter']];
     $lastcompanysalary = $form_state['values']['lastcompanysalary'];
     $ctcperannum = $form_state['values']['ctcperannum'];
     $netsalary = $form_state['values']['netsalary'];
     $reportingmanagerone = $form_state['values']['reportingmanagerone'];
     $reportingmanagertwo = $form_state['values']['reportingmanagertwo'];
-    $salarypaymentmode = $form_state['values']['salarypaymentmode'];
-    $salarybankaccount = $form_state['values']['salarybankaccount'];
+   
+    $salarypaymentmode =  $form['salarypaymentmode']['#options'][$form_state['values']['salarypaymentmode']];
+    
+    $salarybankaccount =  $form['salarybankaccount']['#options'][$form_state['values']['salarybankaccount']];
     $bankaccountnumber = $form_state['values']['bankaccountnumber'];
     $ifsccode = $form_state['values']['ifsccode'];
     $currentposition = $form_state['values']['currentposition'];
@@ -432,7 +454,7 @@ function employee_form_form_submit($form, &$form_state) {
 
     
     $node->uid = '4';
-    $node->title    ='Name:'.$employeename.''.'ID:'.$employeeid;
+    $node->title    =$employeename;
     $node->language = LANGUAGE_NONE;
 
   $node->field_companymylist[$node->language][0]['value'] = $company;
@@ -440,14 +462,14 @@ function employee_form_form_submit($form, &$form_state) {
   $node->field_department[$node->language][0]['value'] = $department;
   $node->field_employee_id[$node->language][0]['value'] = $employeeid;
   $node->field_employee_name[$node->language][0]['value']  = $employeename;
-  //$node->field_date_of_birth[$node->language][0]['value']  = $dateofbirth;
+  $node->field_date_of_birth[$node->language][0]['value']  = $dateofbirth;
   $node->field_gender[$node->language][0]['value']  = $gender;
   //$node->field_companyname[$node->language][0]['value']  = $companyname;
   //$node->field_departmentname[$node->language][0]['value']  = $departmentname;
   //$node->field_branchname[$node->language][0]['value']  = $branchname;
   
 
-  //$node->field_date_of_joinning[$node->language][0]['value']  = $dateofjoinning;
+  $node->field_date_of_joinning[$node->language][0]['value']  = $dateofjoinning;
   $node->field_designation[$node->language][0]['value']  = $designation;
   $node->field_marital_status[$node->language][0]['value']  = $maritalstatus;
   $node->field_name_of_spouse[$node->language][0]['value']  = $nameofspouse;

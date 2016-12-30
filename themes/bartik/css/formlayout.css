@@ -3,29 +3,21 @@
 /*.form-item-title {
     display: none;
 }*/
-#header
-{
-     
-    
-}
   h1#page-title {
   text-align: center;
 	}
 	h1#page-title {
     font-size: 2.5em;
 	}
-.form-item-title {
-
-}
 .form-item label {
-    font-size: 1.2em;
+   font-size: 1.2em;
     /*text-align: center;*/
     float: left;
     width: 20em;
 }
 input.form-text,textarea.form-textarea {
     display: inline;
-    width:auto;
+    width: auto;
     height: 40px;
     padding: 6px 12px;
     font-size: 14px;
@@ -33,29 +25,28 @@ input.form-text,textarea.form-textarea {
     color: #555;
     background-color: #fff;
     background-image: none;
-    border: 1px solid black;
+    border: 1px solid #909090;
     border-radius: 4px;
-    background-color: #ccc;
-}
+    background-color: #d9edf7;}
 .form-item label#edit-title {
 	display: none;
 }
-h1#page-title.title {
+h1#page-title.title 
+{
     font-size: 36px;
    
     font-weight: bold;
     
 }
-label {
+label 
+{
     padding-top: 7px;
     margin-bottom: 0;
     /*text-align: right;*/
     padding-right: 20px;
-}
-label {
     display: inline-block;
     max-width: 100%;
-    }
+}
 input#edit-field{
     display: block;
     width: 100%;
@@ -91,17 +82,17 @@ div.navbar.navbar-inverse.navbar-fixed-top{
     display: none;
 }
 input#edit-submit.form-submit{
-    background-color:#ccc;
+    background-color:#d9edf7;
     padding: 5px;
-    /*border-color: black;*/
+    /*border-color: #909090;*/
     border-radius: 4px;
     font-size: 1.5em;
     color: black;
     padding-left: 30px;
     padding-right: 30px;
-
-    /*float: right;*/
-
+    /*margin: 10px 335px;*/
+    margin-top: 30px;
+   
 }
 body{
     padding-top: 10px;
@@ -129,7 +120,7 @@ background-image: none;
 }
 
 #header div.section {
-    padding-bottom: 20px;
+    /*padding-bottom: 20px;*/
 
    
 }
@@ -141,8 +132,8 @@ select{
     line-height: inherit;
     width:20%;
     height:30px;
-    background-color: #ccc;
-    border-color: black;
+    background-color: #d9edf7;
+    border-color: #909090;
     
 }
 
@@ -151,19 +142,20 @@ div.content {
 }
 
 .form-managed-file .form-submit {
-    background-color:#ccc;
-    /*border-color: black;*/
+    background-color:#d9edf7;
+   
     
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: black;
+    padding: 5px 17px 5px 17px;
 
     }
 
 .form-managed-file .form-file {
-    background-color:#ccc;
-    /*border-color: black;*/
+    /*background-color:#d9edf7;*/
+   
     
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
     color: black;
 
 }
@@ -178,7 +170,7 @@ input[type=submit] {
 }
 
 
-th.views-field.views-field-title {
+/*th.views-field.views-field-title {
     
      padding-right: 40px;
 }
@@ -199,13 +191,12 @@ th.views-field.views-field-field-tin-number{
 
 th.views-field.views-field-field-pan-number{
      padding-right: 50px; 
-}
+}*/
 
 .one-sidebar #content {
-    width: 1000px;
-    height:500px;
+    width: 960px !important;
 }
-table.views-table.cols-5 {
+/*table.views-table.cols-5 {
     width: 970px;
 }
 tbody{
@@ -216,7 +207,357 @@ tbody{
     font-size: 20px;
 }
 
-.view.view-branch.view-id-branch.view-display-id-page.anishabranch.view-dom-id-3eb71410880abac949a19d522b8da722 .view-content table.views-table.cols-5{
+*/
+#content .section, .sidebar .section {
+     padding: 0 2px; 
+     width: 960px!important;
+}
+
+
+th.mylabel {
+/*
+  text-align: left;
+    font-size: 20px;
+    font-weight: 100;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-right: 14px;
+    padding-left: 14px;
+    width: 30%;*/
+       text-align: left;
+    font-size: 16px;
+    font-weight: 100;
+    padding-top: 13px;
+    padding: 18px 18px;
+    width: 30%;
+}
+
+
+td.myfield {
+   padding: 12px 20px;
+}
+form#manage-salary-form {
+    padding: 0 21px;
+}
+table{
+width:100%;
+}
+/*.one-sidebar #content{width: 960px !important;}*/
+#content, #sidebar-first, #sidebar-second, .region-triptych-first, .region-triptych-middle, .region-triptych-last, .region-footer-firstcolumn, .region-footer-secondcolumn, .region-footer-thirdcolumn, .region-footer-fourthcolumn{float: right;}
+
+form#company-form-form {
+  padding: 0 21px;
+}  
+
+form#branch-form-form {
+padding: 0 21px;
+}
+
+form#department-form-form {
+padding: 0 21px;
+}
+
+form#employee-form-form {
+padding: 0 21px;
+}
+form#manage-attendance-form {
+padding: 0 21px;
+}
+form#allowance-settings-form{
+  padding: 0 21px;
+}
+form#holiday-settings-form{
+  padding: 0 21px;
+}
+
+tr.even, tr.odd {
+     background-color:#d9edf7; 
+     border-bottom: 1px solid #ccc; 
+    /* padding: 0.1em 0.6em; */
+}
+
+
+.content.clearfix {
+    background-color: #d9edf7;
+}
+
+  /* Other styling.. */
+ .field.field-name-field-company-name.field-type-text.field-label-inline.clearfix {
+    padding: 10px 10px;
+}
+
+.field.field-name-field-company-address.field-type-text.field-label-inline.clearfix {
+    padding: 10px 10px;
+}
+
+.field.field-name-field-it-month.field-type-text.field-label-inline.clearfix{
+    padding: 10px 10px; 
+}
+
+ .field.field-name-field-tin-number.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;   
+}
+
+.field.field-name-field-pan-number.field-type-text.field-label-inline.clearfix{
+      padding: 10px 10px;   
+}
+
+.field.field-name-field-esi-number.field-type-text.field-label-inline.clearfix{
+    padding: 10px 10px;   
+}
+
+.field.field-name-field-pf-number.field-type-text.field-label-inline.clearfix {
+    padding: 10px 10px;   
+}
+
+.field.field-name-field-bank-account-details.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;   
+}
+
+.field.field-name-field-company-logo.field-type-text.field-label-inline.clearfix{
+     padding: 10px 10px;   
+}
+
+
+    ul.primary {
+    border-bottom: none;
+    border-collapse: collapse;
+    height: auto;
+    line-height: normal;
+    list-style: none;
+    margin: 5px;
+    padding: 0 0 0 1em;
+    white-space: nowrap;
+}
+ 
+ .meta.submitted {
+    float: right;
+}
+
+div#edit-body {
+    display: none;
+}
+input#edit-preview {
+   background-color: #d9edf7;
+    padding: 5px;
+    /* border-color: #909090; */
+    border-radius: 4px;
+    font-size: 1.5em;
+    color: black;
+    padding-left: 30px;
+    padding-right: 30px;
+    /* float: right; */
+}
+
+input#edit-delete {
+   background-color: #d9edf7;
+    padding: 5px;
+    /* border-color: #909090; */
+    border-radius: 4px;
+    font-size: 1.5em;
+    color: black;
+    padding-left: 30px;
+    padding-right: 30px;
+    /* float: right; */  
+}
+
+.form-item .description {
+    font-size: 0.85em;
+    /*padding-left: 35%;*/
+}
+
+ul.primary li a {
+     background-color: none; 
+     border-color: none; 
+     border-style: none; 
+    border-width: none;
+    height: auto;
+    margin-right: 0.5em;
+    padding: 0 1em;
+    text-decoration: none;
+}
+ul.primary li.active a {
+    background-color: none;
+    border: none; 
+    font-size: 1.5em;
+    /* border-bottom: 1px solid #fff; */
+}
+
+ul.primary li a {
+    background-color:#d9edf7 ; 
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    height: auto;
+    margin-right: 0.5em;
+    padding: 0 1em;
+    text-decoration: none;
+     font-size: 1.5em;
+}
+
+.field.field-name-field-branch-name.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;
+}
+
+.field.field-name-field-branch-country.field-type-text.field-label-inline.clearfix {
+      padding: 10px 10px;
+}
+
+.field.field-name-field-branch-state.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;
+}
+
+.field.field-name-field-branch-city.field-type-text.field-label-inline.clearfix {
+      padding: 10px 10px;
+}
+
+.field.field-name-field-branch-address.field-type-text.field-label-inline.clearfix {
+      padding: 10px 10px;
+}
+
+.field.field-name-field-branch-ph1.field-type-text.field-label-inline.clearfix {
+      padding: 10px 10px;
+}
+
+.field.field-name-field-branch-ph2.field-type-text.field-label-inline.clearfix {
+      padding: 10px 10px;
+}
+
+.field.field-name-field-branch-ph3.field-type-text.field-label-inline.clearfix {
+      padding: 10px 10px;
+}
+
+.field.field-name-field-branch-ph4.field-type-text.field-label-inline.clearfix {
+      padding: 10px 10px;
+}
+
+.field.field-name-field-email1.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;
+}
+
+.field.field-name-field-email2.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;
+}
+
+.field.field-name-field-email3.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;
+}
+
+.field.field-name-field-email4.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;
+}
+
+.field.field-name-field-skypeid.field-type-text.field-label-inline.clearfix {
+    padding: 10px 10px;
+}
+
+.field.field-name-field-department-name.field-type-text.field-label-inline.clearfix {
+    padding: 10px 10px;
+}
+
+.field.field-name-field-department-preference.field-type-text.field-label-inline.clearfix {
+      padding: 10px 10px;
+}
+
+.field.field-name-field-overtimeperhour.field-type-text.field-label-inline.clearfix {
+     padding: 10px 10px;
+}
+
+.field.field-name-field-overtimestatus.field-type-list-text.field-label-inline.clearfix {
+     padding: 10px 10px;
+}
+
+th {
+    border-bottom: 1px solid black;
+}
+
+div.messages {
+    /* background-position: 8px 8px; */
+    background-repeat: no-repeat;
+    /* border: 1px solid; */
+    margin: 6px 0;
+    padding: 10px 10px 10px 50px;
+   
+    padding: 10px 40px;
+}
+
+div.error, table tr.error {
+    background-color: white; 
     color: red;
+}
+
+div.error {
+    
+    border-color: red;
+    font-size: 1em;
+    padding-left:40px;
+}
+
+.form-managed-file .form-file, .form-managed-file .form-submit {
+    margin: 2;
+    }
+
+.form-item.form-type-checkboxes.form-item-permanent {
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: 2em;
+    line-height: 1em;
+}
+
+.form-item.form-type-checkboxes.form-item-defaultvalues {
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: 2em;
+    line-height: 1em;
+}
+.form-item.form-type-checkboxes.form-item-selectoption {
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: 2em;
+    line-height: 1em;
+}
+
+input#edit-submit.mysubmit.form-submit{
+      margin: 10px 335px;
+  }
+  .pager-top {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.pager li>a, .pager li>span {
+    display: inline-block;
+    padding: 7px 17px;
+    background-color: #d9edf7 !important;
+    border: 1px solid #d9edf7 !important;
+    border-radius: 7% !important;
+    margin: 17px 1px !important;
+    color: #000 !important;
+}
+
+ table.views-table.cols-8 >thead >tr {
+    background: #2d2d2d !important;
+    color: #fff !important;
+}
+ table.views-table.cols-3 >thead >tr {
+    background: #2d2d2d !important;
+    color: #fff !important;
+}
+ table.views-table.cols-6 >thead >tr {
+    background: #2d2d2d !important;
+    color: #fff !important;
+}
+ table.views-table.cols-9 >thead >tr {
+    background: #2d2d2d !important;
+    color: #fff !important;
+}
+.confirm-parent, .password-parent {
+    clear: left;
+    margin: 0;
+    width: auto !important;
+}
+
+div#edit-companylogo-upload .form-managed-file .form-file input[type=file] {
 
 }

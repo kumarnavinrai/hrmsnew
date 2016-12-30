@@ -18,9 +18,10 @@ function department_form_help($path, $arg)
   }
 }
 
-function department_form_menu() {
+function department_form_menu() 
+{
   $items['departmentform'] = array(
-    'title' => 'DEPARTMENT DETAILS',
+    'title' => 'DEPARTMENT',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('department_form_form'),
     'access callback' => TRUE,
@@ -28,7 +29,8 @@ function department_form_menu() {
   return $items;
 }
 
-function department_form_form($form,&$form_submit) {
+function department_form_form($form,&$form_submit) 
+{
 
    
     $query = new EntityFieldQuery();
@@ -77,50 +79,47 @@ function department_form_form($form,&$form_submit) {
     '#required' => TRUE,
     );
    
-   
-   
-
-
-
-
+    $form['departmentname'] = array(
+    '#title' => t('Name:'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    );
     
-
-  $form['departmentname'] = array(
-    '#title' => t('Department Name:'),
+    $form['departmentprefrence'] = array(
+    '#title' => t('Prefrence:'),
     '#type' => 'textfield',
     '#required' => TRUE,
-  );
-  $form['departmentprefrence'] = array(
-    '#title' => t('Department Prefrence:'),
-    '#type' => 'textfield',
-    '#required' => TRUE,
-  );
-  $form['overtimestatus'] = array(
+    );
+    
+    $form['overtimestatus'] = array(
     '#title' => t('Overtime Status:'),
     '#type' => 'select',
     '#options' => array(t('Yes'), t('No')),
     '#required' => TRUE,
-  );
-  $form['overtimeperhour'] = array(
+    );
+    
+    $form['overtimeperhour'] = array(
     '#title' => t('Overtime per Hour:'),
     '#type' => 'textfield',
     
-  );
+    );
   
-  $form['submit'] = array(
+    $form['submit'] = array(
     '#value' => 'SUBMIT',
+    '#attributes' => array('class' => array('mysubmit')),
     '#type' => 'submit',
     );
-  return $form;
+    return $form;
 }
 
 function department_form_form_submit($form, &$form_state) {
 
-    $company = $form_state['values']['company'];
-    $branch = $form_state['values']['branch'];
+   
+    $company =  $form['company']['#options'][$form_state['values']['company']];
+    $branch =  $form['branch']['#options'][$form_state['values']['branch']];
     $departmentname = $form_state['values']['departmentname'];
     $departmentprefrence = $form_state['values']['departmentprefrence'];
-    $overtimestatus = $form_state['values']['overtimestatus'];
+    $overtimestatus =  $form['overtimestatus']['#options'][$form_state['values']['overtimestatus']];
     $overtimeperhour = $form_state['values']['overtimeperhour'];
    
     $node = new stdClass();
@@ -134,16 +133,13 @@ function department_form_form_submit($form, &$form_state) {
     $node->field_branch[$node->language][0]['value'] = $branch;
     $node->field_department_name[$node->language][0]['value'] = $departmentname;
     $node->field_department_preference[$node->language][0]['value']  = $departmentprefrence;
-    $node->field_overtimestatus[$node->language][0]['value']  =   $overtimestatus;
+    $node->field_overtime_status[$node->language][0]['value']  =   $overtimestatus;
     $node->field_overtimeperhour[$node->language][0]['value']  =  $overtimeperhour;
    
-  
- 
-
     node_save($node);
    
   
-      if($node){
+    if($node){
        drupal_set_message("Department data saved successfully");
        //drupal_set_message( $company);
        //drupal_set_message( $branch);
