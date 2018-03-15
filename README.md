@@ -6,5 +6,5 @@
 
 #You can download code make your server compatible with druppal 7.1 and use this code.
 
-![alt text](https://goo.gl/images/5LsMYj
+![alt text](https://goo.gl/images/5LsMYj)
 
